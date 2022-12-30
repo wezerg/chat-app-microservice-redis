@@ -3,9 +3,11 @@ import { RouterLink } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { useAuthService } from '../services/authService';
 import instAxios from '../services/InstAxios';
+import { useRouter } from "vue-router";
 
 const count = ref(0);
-const {user} = useAuthService();
+const {user, disconnect} = useAuthService();
+const router = useRouter();
 
 onMounted(async () => {
     const {status, data} = await instAxios().get("/hits").catch(error => error.response);
@@ -13,6 +15,12 @@ onMounted(async () => {
         count.value = parseInt(data);
     }
 });
+
+function disconnectBtn(){
+    disconnect();
+    router.push({ path: "/", name: "home" });
+}
+
 </script>
 
 <template>
@@ -23,8 +31,9 @@ onMounted(async () => {
                 <RouterLink to="/login" v-if="!user">Login / Register</RouterLink>
                 <RouterLink to="/chat" v-if="user">ChatApp</RouterLink>
             </div>
-            <div>
+            <div style="display: flex; align-items: center;">
                 <p>Compteur de visites : {{count}}</p>
+                <button class="btn-error" v-if="user" @click="disconnectBtn()">Déconnexion</button>
             </div>
         </nav>
     </header>
@@ -38,7 +47,6 @@ nav{
 }
 nav a, p{
     padding: 4px 8px;
-    color: white;
     text-decoration: none;
 }
 p{
