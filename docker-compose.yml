@@ -20,6 +20,7 @@ services:
     build: ./spa
     depends_on:
       - hits-counter
+      - auth
       #- chat-websocket
     labels:
       - "traefik.enable=true"
@@ -41,8 +42,8 @@ services:
       - redis
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.hits.rule=Host(`localhost`) && Path(`/auth`)"
-      - "traefik.http.routers.hits.entrypoints=web"
+      - "traefik.http.routers.auth.rule=Host(`localhost`) && PathPrefix(`/auth`)"
+      - "traefik.http.routers.auth.entrypoints=web"
     deploy:
       replicas: 1
   redis:
