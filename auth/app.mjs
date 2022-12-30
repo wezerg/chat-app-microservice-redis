@@ -8,7 +8,7 @@ const app = express();
 const client = createClient({url: 'redis://redis'});
 client.on('error', (err) => console.log('Redis Client Error', err));
 await client.connect();
-await client.SET('incrementalid', 0);
+await client.SET('incrementalid', 5);
 
 app.use(express.json()); // Middleware Express Json
 app.use(cookieParser()); // Middleware Express Json
@@ -16,12 +16,24 @@ app.use(cookieParser()); // Middleware Express Json
 // Déclaration des routes ici
 app.post('/auth/login', async (req, res, next) => {
     if (req.body.username && req.body.password) {
-        /**
-         * Lire les HASH dans redis pour trouver l'utilisateur
-         * Comparer mot de passe donnée par celui contenue dans le HASH
-         * Renvoyer son idSession dans le cookie à la place de "Hello world"
-         */
-        res.status(200).cookie('auth-chat-app', 'Hello world').send({username: req.body.username});   
+        const idUser = await (client.GET(`users:${req.body.username}`));
+        if (idUser) {
+            const user = await client.HGETALL(`users:${idUser}`);
+            if (user && user.username && user.password) {
+                const goodHash = await crypt.compare(req.body.password, user.password);
+                if (!goodHash) {
+                    next("Identifiants incorrects");
+                    return;
+                }
+                res.status(200).cookie('auth-chat-app', idUser).send({username: req.body.username});           
+            }
+            else{
+                next("Cet utilisateur n'existe pas");
+            } 
+        }
+        else{
+            next("Cet utilisateur n'existe pas");
+        }
     }
     else{
         next("Veuillez renseigner un pseudo et un mot de passe");
@@ -38,7 +50,7 @@ app.post('/auth/register', async (req, res, next) => {
                     const passwordHash = await crypt.hash(req.body.password, salt);
                     const hash = await client.HSET(`users:${idIncrement}`, {username: req.body.username, password: passwordHash});
                     if (hash) {
-                        await client.SET(`users:${req.body.username}`, '1');
+                        await client.SET(`users:${req.body.username}`, `${idIncrement}`);
                         res.status(200).cookie('auth-chat-app', idIncrement).send({username: req.body.username});   
                     }          
                 }                
