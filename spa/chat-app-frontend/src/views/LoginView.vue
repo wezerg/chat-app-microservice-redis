@@ -69,41 +69,5 @@
     <p class="error-message">{{ errorMessage }}</p>
 </template>
 <style scoped>
-input, button{
-    transition: all ease-in-out 0.15s;
-    display: block;
-    height: 32px;
-    background-color: unset;
-    border: unset;
-    color: white;
-    box-shadow: 0 0 4px 2px #565964;
-    border-radius: 8px;
-    padding: 4px 8px;
-    margin: 8px;
-}
-input:focus, button:focus{
-    outline: none;
-    box-shadow: 0 0 4px 2px #797a7c;
-}
-input{
-    min-width: 200px;
-}
-button{
-    cursor: pointer;
-}
-button:hover{
-    transition: all ease-in-out 0.15s;
-    color: #565964;
-    background-color: #FFFFFF;
-}
-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.error-message{
-    color: #c75252;
-    text-align: center;
-}
+
 </style>
