@@ -57,13 +57,13 @@ app.post('/auth/register', async (req, res, next) => {
 });
 app.get('/auth/auto', async (req, res, next) => {
     if (req.cookies['auth-chat-app']) {
-        /**
-         * Récupérer le cookie "sessionId" envoyé par le front-end
-         * Rechercher le hash de l'utilisateur par son sessionId
-         * Renvoyer l'utilisateur trouvé
-         */
-        console.log(req.cookies);
-        res.status(200).send("Connecté");        
+        const user = await client.HGETALL(`users:${req.cookies['auth-chat-app']}`);
+        if (user && user.username) {
+            res.status(200).send({username: user.username});
+        }
+        else{
+            next("Cet utilisateur n'existe pas");
+        }  
     }
     else{
         next('Cookie de session inexistant');
