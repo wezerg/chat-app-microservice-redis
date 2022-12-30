@@ -1,6 +1,7 @@
 /* Body */
 body, html{
     background-color: #161820;
+    color: #f3f3f3;
     font-family: "Poppins";
 }
 /* Input & Button */
@@ -10,7 +11,7 @@ input, button{
     height: 32px;
     background-color: unset;
     border: unset;
-    color: white;
+    color: #f3f3f3;
     box-shadow: 0 0 4px 2px #565964;
     border-radius: 8px;
     padding: 4px 8px;
@@ -31,10 +32,14 @@ button{
 button:hover{
     transition: all ease-in-out 0.15s;
     color: #565964;
-    background-color: #FFFFFF;
+    color: #f3f3f3;
 }
 .btn-error{
     box-shadow: 0 0 4px 2px #6b4545;
+}
+/* Link */
+a{
+    color: #f3f3f3;
 }
 /* Form */
 form{
