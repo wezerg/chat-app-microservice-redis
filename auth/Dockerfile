@@ -2,7 +2,7 @@ FROM node
 
 WORKDIR /code
 
-RUN npm install express && npm install redis
+RUN npm install express && npm install redis && npm install cookie-parser
 
 COPY ./app.mjs .
 

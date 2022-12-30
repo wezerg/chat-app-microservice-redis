@@ -1,5 +1,6 @@
 import { createClient } from 'redis';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -8,6 +9,7 @@ client.on('error', (err) => console.log('Redis Client Error', err));
 await client.connect();
 
 app.use(express.json()); // Middleware Express Json
+app.use(cookieParser()); // Middleware Express Json
 
 // Déclaration des routes ici
 app.post('/auth/login', async (req, res, next) => {
@@ -42,9 +44,19 @@ app.post('/auth/register', async (req, res, next) => {
         next("Veuillez renseigner un pseudo, un mot de passe et sa confirmation");
     }
 });
-app.get('/auth/auto', async (req, res) => {
-    console.log("auto");
-    res.status(200).send("Connecté");
+app.get('/auth/auto', async (req, res, next) => {
+    if (req.cookies['auth-chat-app']) {
+        /**
+         * Récupérer le cookie "sessionId" envoyé par le front-end
+         * Rechercher le hash de l'utilisateur par son sessionId
+         * Renvoyer l'utilisateur trouvé
+         */
+        console.log(req.cookies);
+        res.status(200).send("Connecté");        
+    }
+    else{
+        next('Cookie de session inexistant');
+    }
 });
 
 // Middleware d'erreur général 400
