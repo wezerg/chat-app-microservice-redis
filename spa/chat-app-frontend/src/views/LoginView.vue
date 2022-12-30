@@ -31,7 +31,7 @@
     async function registerForm(){
         if (username.value && password.value && confirmPassword.value) {
             if (password.value === confirmPassword.value) {
-                const {status, data, error} = await register(username.value, password.value, "05");
+                const {status, data, error} = await register(username.value, password.value, confirmPassword.value);
                 if (status === 200) {
                     user.value = data;
                     router.push({ name: "home" });
