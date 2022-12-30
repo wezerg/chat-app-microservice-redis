@@ -1,4 +1,55 @@
+/* Body */
 body, html{
     background-color: #161820;
+    color: #f3f3f3;
     font-family: "Poppins";
+}
+/* Input & Button */
+input, button{
+    transition: all ease-in-out 0.15s;
+    display: block;
+    height: 32px;
+    background-color: unset;
+    border: unset;
+    color: #f3f3f3;
+    box-shadow: 0 0 4px 2px #565964;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin: 8px;
+}
+input:focus, button:focus{
+    outline: none;
+    box-shadow: 0 0 4px 2px #797a7c;
+}
+input{
+    min-width: 200px;
+}
+button{
+    font-family: 'Poppins';
+    background-color: unset;
+    cursor: pointer;
+}
+button:hover{
+    transition: all ease-in-out 0.15s;
+    color: #565964;
+    color: #f3f3f3;
+}
+.btn-error{
+    box-shadow: 0 0 4px 2px #6b4545;
+}
+/* Link */
+a{
+    color: #f3f3f3;
+}
+/* Form */
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* Custom class */
+.error-message{
+    color: #c75252;
+    text-align: center;
 }
