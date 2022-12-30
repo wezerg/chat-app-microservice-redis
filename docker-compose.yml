@@ -35,6 +35,14 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.hits.rule=Host(`localhost`) && Path(`/hits`)"
       - "traefik.http.routers.hits.entrypoints=web"
+  auth:
+    build: ./auth
+    depends_on:
+      - redis
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hits.rule=Host(`localhost`) && Path(`/auth`)"
+      - "traefik.http.routers.hits.entrypoints=web"
     deploy:
       replicas: 1
   redis:
