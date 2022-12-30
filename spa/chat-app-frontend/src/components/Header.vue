@@ -1,16 +1,16 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { useAuthService } from '../services/authService';
+import instAxios from '../services/InstAxios';
 
 const count = ref(0);
+const {user} = useAuthService();
 
 onMounted(async () => {
-    try {
-        const response = await axios.get("/hits");
-        count.value = parseInt(response.data);
-    } catch (error) {
-        console.error(error);
+    const {status, data} = await instAxios().get("/hits").catch(error => error.response);
+    if (status === 200) {
+        count.value = parseInt(data);
     }
 });
 </script>
@@ -20,7 +20,8 @@ onMounted(async () => {
         <nav>
             <div>
                 <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/login">Login / Register</RouterLink>
+                <RouterLink to="/login" v-if="!user">Login / Register</RouterLink>
+                <RouterLink to="/chat" v-if="user">ChatApp</RouterLink>
             </div>
             <div>
                 <p>Compteur de visites : {{count}}</p>
