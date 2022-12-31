@@ -3,6 +3,7 @@ import { useAuthService } from '../services/authService';
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import ChatView from '../views/ChatView.vue'
+import ChatRoom from '../views/ChatRoom.vue'
 
 const {user} = useAuthService();
 function isAuth(){
@@ -25,9 +26,15 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/chat',
-      name: 'chat',
+      path: '/rooms',
+      name: 'rooms',
       component: ChatView,
+      beforeEnter: [isAuth]
+    },
+    {
+      path: '/rooms/:id',
+      name: 'room',
+      component: ChatRoom,
       beforeEnter: [isAuth]
     }
   ]

@@ -8,7 +8,7 @@ const app = express();
 const client = createClient({url: 'redis://redis'});
 client.on('error', (err) => console.log('Redis Client Error', err));
 await client.connect();
-await client.SET('incrementalid', 5);
+await client.SET('incremental:id:users', 0);
 
 app.use(express.json()); // Middleware Express Json
 app.use(cookieParser()); // Middleware Express Json
@@ -44,7 +44,7 @@ app.post('/auth/register', async (req, res, next) => {
         if (req.body.password === req.body.confirmPassword) {
             const existingUser = parseInt(await client.EXISTS(`users:${req.body.username}`));
             if (!existingUser) {
-                const idIncrement = await client.INCR('incrementalid', 1);
+                const idIncrement = await client.INCR('incremental:id:users', 1);
                 if (idIncrement) {
                     const salt = await crypt.genSalt(10);
                     const passwordHash = await crypt.hash(req.body.password, salt);
