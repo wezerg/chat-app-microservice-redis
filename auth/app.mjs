@@ -8,7 +8,7 @@ const app = express();
 const client = createClient({url: 'redis://redis'});
 client.on('error', (err) => console.log('Redis Client Error', err));
 await client.connect();
-await client.SET('incrementalid', 0);
+await client.SET('incremental:id:users', 0);
 
 app.use(express.json()); // Middleware Express Json
 app.use(cookieParser()); // Middleware Express Json
