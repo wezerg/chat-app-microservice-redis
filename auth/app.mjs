@@ -44,7 +44,7 @@ app.post('/auth/register', async (req, res, next) => {
         if (req.body.password === req.body.confirmPassword) {
             const existingUser = parseInt(await client.EXISTS(`users:${req.body.username}`));
             if (!existingUser) {
-                const idIncrement = await client.INCR('incrementalid', 1);
+                const idIncrement = await client.INCR('incremental:id:users', 1);
                 if (idIncrement) {
                     const salt = await crypt.genSalt(10);
                     const passwordHash = await crypt.hash(req.body.password, salt);
