@@ -29,7 +29,7 @@ function disconnectBtn(){
             <div>
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/login" v-if="!user">Login / Register</RouterLink>
-                <RouterLink to="/chat" v-if="user">ChatApp</RouterLink>
+                <RouterLink to="/rooms" v-if="user">ChatApp</RouterLink>
             </div>
             <div style="display: flex; align-items: center;">
                 <p>Compteur de visites : {{count}}</p>

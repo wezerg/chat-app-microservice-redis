@@ -25,8 +25,8 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/chat',
-      name: 'chat',
+      path: '/rooms',
+      name: 'rooms',
       component: ChatView,
       beforeEnter: [isAuth]
     }
