@@ -5,16 +5,20 @@ import instAxios from '../services/InstAxios';
 const messages = ref([]);
 defineProps({
     roomId: {
-        default: null
+        type: String,
+        default: ""
     }
 });
 
 onMounted(async () => {
-    /**
-     * Connection to websocket
-     * Listener to reads messages from micro service
-     * Save message in messages ref
-     */
+    try {
+        const ws = new WebSocket("ws://localhost:3000/listener");
+        ws.onmessage = ({data}) => {
+            messages.value = JSON.parse(data);
+        }
+    } catch(err) {
+        console.log(err);
+    }
 });
 </script>
 <template>
