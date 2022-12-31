@@ -56,5 +56,16 @@ services:
       - "traefik.http.routers.chatrooms.entrypoints=web"
     deploy:
       replicas: 1
+  publisher:
+    build: ./publisher
+    depends_on:
+      - redis
+      - chatrooms
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.publisher.rule=Host(`localhost`) && PathPrefix(`/publish`)"
+      - "traefik.http.routers.publisher.entrypoints=web"
+    deploy:
+      replicas: 1
   redis:
     image: redis
