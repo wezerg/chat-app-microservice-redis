@@ -46,5 +46,15 @@ services:
       - "traefik.http.routers.auth.entrypoints=web"
     deploy:
       replicas: 1
+  chatrooms:
+    build: ./chatrooms
+    depends_on:
+      - redis
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.chatrooms.rule=Host(`localhost`) && PathPrefix(`/chatrooms`)"
+      - "traefik.http.routers.chatrooms.entrypoints=web"
+    deploy:
+      replicas: 1
   redis:
     image: redis
