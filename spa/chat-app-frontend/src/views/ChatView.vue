@@ -1,8 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
+import instAxios from '../services/InstAxios';
 
-const rooms = ref([{name: "general", id: 1},{name: "dev", id: 2},{name: "design", id: 3}]);
+const rooms = ref([]);
+onMounted(async () => {
+    const {status, data} = await instAxios().get('/chatrooms').catch(error => error.response);
+    if (status === 200) {
+        rooms.value = data;
+    }
+});
 </script>
 <template>
     <div>
