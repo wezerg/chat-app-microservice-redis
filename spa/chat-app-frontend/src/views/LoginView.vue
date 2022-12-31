@@ -50,7 +50,9 @@
     }
 </script>
 <template>
-    <button @click="toggle = !toggle">{{toggle ? "Je ne suis pas inscrit" : "Je suis déja inscrit"}}</button>
+    <div style="justify-content: start;">
+        <button @click="toggle = !toggle">{{toggle ? "Je ne suis pas inscrit" : "Je suis déja inscrit"}}</button>
+    </div>
     <div v-if="toggle">
         <form @submit.prevent="loginForm()">
             <input type="text" name="username" placeholder="Pseudonyme" v-model="username">
