@@ -12,6 +12,11 @@ body{
     padding: 8px;
     height: calc(100% - 16px);
 }
+#app{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 /* Input & Button */
 input, button{
     transition: all ease-in-out 0.15s;
