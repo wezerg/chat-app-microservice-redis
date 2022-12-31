@@ -3,6 +3,14 @@ body, html{
     background-color: #161820;
     color: #f3f3f3;
     font-family: "Poppins";
+    margin: 0;
+}
+html{
+    height: 100%;
+}
+body{
+    padding: 8px;
+    height: calc(100% - 16px);
 }
 /* Input & Button */
 input, button{
