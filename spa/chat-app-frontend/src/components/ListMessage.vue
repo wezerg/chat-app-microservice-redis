@@ -1,13 +1,27 @@
 <script setup>
-    defineProps({
-        roomId: {
-            default: null
-        }
-    });
+import { ref, onMounted } from 'vue';
+import instAxios from '../services/InstAxios';
+
+const messages = ref([]);
+defineProps({
+    roomId: {
+        default: null
+    }
+});
+
+onMounted(async () => {
+    /**
+     * Connection to websocket
+     * Listener to reads messages from micro service
+     * Save message in messages ref
+     */
+});
 </script>
 <template>
     <div class="chatbox-messages">
-        <!-- Display list of messages -->
+        <ul v-if="messages && messages.length">
+            <li v-for="m of messages">{{ m.text }}</li>
+        </ul>
     </div>
 </template>
 <style>

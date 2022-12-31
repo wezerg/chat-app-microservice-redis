@@ -3,9 +3,11 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import instAxios from '../services/InstAxios';
 import ListMessage from '../components/ListMessage.vue';
+import { useAuthService } from '../services/authService';
 
 const router = useRouter();
 const { id } = router.currentRoute.value.params;
+const { user } = useAuthService();
 
 const room = ref([]);
 const sendingMessage = ref('');
@@ -15,13 +17,16 @@ onMounted(async () => {
         room.value = data;
     }
 });
-function sendMessage(){
-    console.log(sendingMessage);
-    /**
-     * Get sendingMessage variable
-     * Send to micro service
-     * Remove sendingMessage value
-     */
+async function sendMessage(){
+    const payload = {
+        roomId: id,
+        text: sendingMessage.value,
+        username: user.value.username
+    }
+    const {status} = await instAxios().post('/publish', payload).catch(error => error.response);
+    if (status === 200) {
+        sendingMessage.value = "";
+    }
 }
 </script>
 <template>
