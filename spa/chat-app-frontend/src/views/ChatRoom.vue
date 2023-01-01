@@ -18,14 +18,16 @@ onMounted(async () => {
     }
 });
 async function sendMessage(){
-    const payload = {
-        roomId: id,
-        text: sendingMessage.value,
-        username: user.value.username
-    }
-    const {status} = await instAxios().post('/publish', payload).catch(error => error.response);
-    if (status === 200) {
-        sendingMessage.value = "";
+    if (sendingMessage.value) {
+        const payload = {
+            roomId: id,
+            text: sendingMessage.value,
+            username: user.value.username
+        }
+        const {status} = await instAxios().post('/publish', payload).catch(error => error.response);
+        if (status === 200) {
+            sendingMessage.value = "";
+        }        
     }
 }
 </script>
