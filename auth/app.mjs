@@ -25,7 +25,7 @@ app.post('/auth/login', async (req, res, next) => {
                     next("Identifiants incorrects");
                     return;
                 }
-                res.status(200).cookie('auth-chat-app', idUser).send({username: req.body.username});           
+                res.status(200).cookie('auth-chat-app', idUser).send({username: req.body.username, id: idUser});           
             }
             else{
                 next("Cet utilisateur n'existe pas");
@@ -51,7 +51,7 @@ app.post('/auth/register', async (req, res, next) => {
                     const hash = await client.HSET(`users:${idIncrement}`, {username: req.body.username, password: passwordHash});
                     if (hash) {
                         await client.SET(`users:${req.body.username}`, `${idIncrement}`);
-                        res.status(200).cookie('auth-chat-app', idIncrement).send({username: req.body.username});   
+                        res.status(200).cookie('auth-chat-app', idIncrement).send({username: req.body.username, id: idIncrement});   
                     }          
                 }                
             }
@@ -71,7 +71,7 @@ app.get('/auth/auto', async (req, res, next) => {
     if (req.cookies['auth-chat-app']) {
         const user = await client.HGETALL(`users:${req.cookies['auth-chat-app']}`);
         if (user && user.username) {
-            res.status(200).send({username: user.username});
+            res.status(200).send({username: user.username, id: req.cookies['auth-chat-app']});
         }
         else{
             next("Cet utilisateur n'existe pas");
