@@ -1,18 +1,19 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import instAxios from '../services/InstAxios';
+import { defineProps, ref, onMounted, toRefs } from 'vue';
 
 const messages = ref([]);
-defineProps({
+const props = defineProps({
     roomId: {
         type: String,
         default: ""
     }
 });
 
+const { roomId } = toRefs(props);
+
 onMounted(async () => {
     try {
-        const ws = new WebSocket("ws://localhost:3000/listener");
+        const ws = new WebSocket(`ws://localhost:3000/listener/${roomId.value}`);
         ws.onmessage = ({data}) => {
             messages.value = JSON.parse(data);
         }

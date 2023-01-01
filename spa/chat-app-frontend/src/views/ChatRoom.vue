@@ -32,7 +32,7 @@ async function sendMessage(){
 <template>
     <div class="chatroom-container">
         <h1>Bienvenue dans le salon {{ room.name }}</h1>
-        <ListMessage :roomId="room.id"/>
+        <ListMessage v-if="room.id" :roomId="room.id"/>
         <form @submit.prevent="sendMessage()" class="form-sending-message">
             <input type="text" name="message" placeholder="Message..." v-model="sendingMessage">
             <button type="submit" style="height: 32px;">Envoyer</button>

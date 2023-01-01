@@ -14,10 +14,12 @@ const wss = new WebSocketServer({ port: 3000 });
 wss.on('connection', async function connection(ws, http) {
     await subscriber.subscribe('messages', async (message) => {
         const data = JSON.parse(message);
-        const messages = await client.LRANGE(`messages:${data.roomId}`, 0, -1);
-        for (let i = 0; i < messages.length; i++) {
-            messages[i] = JSON.parse(messages[i]);
+        if (http.url.replace('/listener/', '') === data.roomId) {
+            const messages = await client.LRANGE(`messages:${data.roomId}`, 0, -1);
+            for (let i = 0; i < messages.length; i++) {
+                messages[i] = JSON.parse(messages[i]);
+            }
+            ws.send(JSON.stringify(messages));         
         }
-        ws.send(JSON.stringify(messages)); // Send to all websocket connection, ignoring roomid
     });
 });
