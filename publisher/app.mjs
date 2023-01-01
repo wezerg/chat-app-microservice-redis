@@ -17,7 +17,7 @@ app.post('/publish', async (req, res, next) => {
         const user = await client.HGETALL(`users:${req.cookies['auth-chat-app']}`);
         if (user && user.username) {
             const date = new Date();
-            const message = {roomId: req.body.roomId, text: req.body.text, date: date.getTime(), username: req.body.username, userId: req.cookies['auth-chat-app']};
+            const message = {roomId: req.body.roomId, text: req.body.text, date: date.getTime(), username: req.body.username, userId: parseInt(req.cookies['auth-chat-app'])};
             await client.LPUSH(`messages:${message.roomId}`, JSON.stringify(message));
             await client.publish('messages', JSON.stringify(message));
             res.status(200).send(true);

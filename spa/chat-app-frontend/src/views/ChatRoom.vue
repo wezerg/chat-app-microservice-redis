@@ -18,21 +18,23 @@ onMounted(async () => {
     }
 });
 async function sendMessage(){
-    const payload = {
-        roomId: id,
-        text: sendingMessage.value,
-        username: user.value.username
-    }
-    const {status} = await instAxios().post('/publish', payload).catch(error => error.response);
-    if (status === 200) {
-        sendingMessage.value = "";
+    if (sendingMessage.value) {
+        const payload = {
+            roomId: id,
+            text: sendingMessage.value,
+            username: user.value.username
+        }
+        const {status} = await instAxios().post('/publish', payload).catch(error => error.response);
+        if (status === 200) {
+            sendingMessage.value = "";
+        }        
     }
 }
 </script>
 <template>
     <div class="chatroom-container">
         <h1>Bienvenue dans le salon {{ room.name }}</h1>
-        <ListMessage :roomId="room.id"/>
+        <ListMessage v-if="room.id" :roomId="room.id"/>
         <form @submit.prevent="sendMessage()" class="form-sending-message">
             <input type="text" name="message" placeholder="Message..." v-model="sendingMessage">
             <button type="submit" style="height: 32px;">Envoyer</button>
