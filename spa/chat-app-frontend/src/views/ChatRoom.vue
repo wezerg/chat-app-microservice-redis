@@ -11,8 +11,11 @@ const { user } = useAuthService();
 
 const room = ref([]);
 const sendingMessage = ref('');
+const baseUrlChat = import.meta.env.VITE_URL_CHAT;
+const baseUrlPublish = import.meta.env.VITE_URL_PUBLISH;
+
 onMounted(async () => {
-    const {status, data} = await instAxios().get(`/chatrooms/${id}`).catch(error => error.response);
+    const {status, data} = await instAxios().get(`${baseUrlChat}/chatrooms/${id}`).catch(error => error.response);
     if (status === 200) {
         room.value = data;
     }
@@ -24,7 +27,7 @@ async function sendMessage(){
             text: sendingMessage.value,
             username: user.value.username
         }
-        const {status} = await instAxios().post('/publish', payload).catch(error => error.response);
+        const {status} = await instAxios().post(`${baseUrlPublish}/publish`, payload).catch(error => error.response);
         if (status === 200) {
             sendingMessage.value = "";
         }        

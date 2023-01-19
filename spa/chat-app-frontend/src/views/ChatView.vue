@@ -4,8 +4,10 @@ import { RouterLink } from 'vue-router';
 import instAxios from '../services/InstAxios';
 
 const rooms = ref([]);
+const baseUrlChat = import.meta.env.VITE_URL_CHAT;
+
 onMounted(async () => {
-    const {status, data} = await instAxios().get('/chatrooms').catch(error => error.response);
+    const {status, data} = await instAxios().get(`${baseUrlChat}/chatrooms`).catch(error => error.response);
     if (status === 200) {
         rooms.value = data;
     }

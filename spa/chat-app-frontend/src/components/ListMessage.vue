@@ -12,10 +12,11 @@ const props = defineProps({
 });
 
 const { roomId } = toRefs(props);
+const baseUrlListen = import.meta.env.VITE_URL_LISTEN;
 
 onMounted(async () => {
     try {
-        const ws = new WebSocket(`ws://localhost:3000/listener/${roomId.value}`);
+        const ws = new WebSocket(`${baseUrlListen}/listener/${roomId.value}`);
         ws.onmessage = ({data}) => {
             messages.value = JSON.parse(data);
         }
