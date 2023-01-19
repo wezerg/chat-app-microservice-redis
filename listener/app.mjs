@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws';
 import { createClient } from 'redis';
 
-const client = createClient({url: 'redis://redis'});
+const client = createClient({url: process.env.REDIS_URL});
 client.on('error', (err) => console.log('Redis Client Error', err));
 const subscriber = client.duplicate();
 subscriber.on('error', (err) => console.log('Redis Client Error', err));

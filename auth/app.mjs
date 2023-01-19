@@ -5,7 +5,7 @@ import crypt from 'bcrypt';
 
 const app = express();
 
-const client = createClient({url: 'redis://redis'});
+const client = createClient({url: process.env.REDIS_URL});
 client.on('error', (err) => console.log('Redis Client Error', err));
 await client.connect();
 await client.SET('incremental:id:users', 0);
