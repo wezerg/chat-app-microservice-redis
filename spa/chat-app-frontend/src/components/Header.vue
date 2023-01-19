@@ -8,9 +8,10 @@ import { useRouter } from "vue-router";
 const count = ref(0);
 const {user, disconnect} = useAuthService();
 const router = useRouter();
+const baseUrlHits = import.meta.env.VITE_URL_HITS;
 
 onMounted(async () => {
-    const {status, data} = await instAxios().get("/hits").catch(error => error.response);
+    const {status, data} = await instAxios().get(`${baseUrlHits}/hits`).catch(error => error.response);
     if (status === 200) {
         count.value = parseInt(data);
     }
