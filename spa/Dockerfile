@@ -8,4 +8,4 @@ WORKDIR /code
 RUN npm install -g http-server
 COPY --from=vuebuild ./code/dist ./
 EXPOSE 3000
-CMD ["http-server", "./", "-p 3000"]
+CMD ["http-server", "./", "-p 3000", "-P http://localhost:3000?"]
