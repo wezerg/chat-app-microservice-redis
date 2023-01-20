@@ -1,6 +1,7 @@
 import { createClient } from 'redis';
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const app = express();
 
@@ -9,7 +10,8 @@ client.on('error', (err) => console.log('Redis Client Error', err));
 await client.connect();
 
 app.use(express.json()); // Middleware Express Json
-app.use(cookieParser()); // Middleware Express Json
+app.use(cookieParser()); // Middleware Cookie Parser
+app.use(cors()); // Middleware Cors
 
 // Déclaration des routes ici
 app.post('/publish', async (req, res, next) => {
