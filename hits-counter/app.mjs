@@ -10,6 +10,11 @@ await client.connect();
 
 app.use(express.json()); // Middleware Express Json
 app.use(cors()); // Middleware Cors
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 app.get('/hits', async (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress; // Get IP Adress of client
