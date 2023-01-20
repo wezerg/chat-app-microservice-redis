@@ -4,7 +4,8 @@ WORKDIR /code
 
 RUN npm install express \
 && npm install redis \
-&& npm install cookie-parser
+&& npm install cookie-parser \
+&& npm install cors
 
 COPY ./app.mjs .
 

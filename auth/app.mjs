@@ -2,6 +2,7 @@ import { createClient } from 'redis';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import crypt from 'bcrypt';
+import cors from 'cors';
 
 const app = express();
 
@@ -11,7 +12,8 @@ await client.connect();
 await client.SET('incremental:id:users', 0);
 
 app.use(express.json()); // Middleware Express Json
-app.use(cookieParser()); // Middleware Express Json
+app.use(cookieParser()); // Middleware Cookie Parser
+app.use(cors()); // Middleware Cors
 
 // Déclaration des routes ici
 app.post('/auth/login', async (req, res, next) => {
