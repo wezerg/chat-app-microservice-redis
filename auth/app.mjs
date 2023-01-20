@@ -13,12 +13,7 @@ await client.SET('incremental:id:users', 0);
 
 app.use(express.json()); // Middleware Express Json
 app.use(cookieParser()); // Middleware Cookie Parser
-app.use(cors()); // Middleware Cors
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use(cors({origin: "*"})); // Middleware Cors
 
 // Déclaration des routes ici
 app.post('/auth/login', async (req, res, next) => {
